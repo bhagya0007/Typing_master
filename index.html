@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TYPE//TANK - Ballistic Terminal Defense Arena</title>
+  <!-- Google Fonts Preconnect & Retro Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Arcade Cabinet Outer Housing Container -->
+  <div id="arcade-bezel">
+    <div id="arcade-cabinet" class="ratio-auto crt-on">
+      
+      <!-- Top Marquee Header HUD -->
+      <header id="marquee-hud">
+        <div class="hud-brand">
+          <span class="hud-status-led"></span>
+          <span class="hud-title">TYPE<span class="slash">//</span>TANK</span>
+          <span class="hud-sub">[DOS.DEF-SYS.v4]</span>
+        </div>
+
+        <div class="hud-operator-box">
+          <span class="hud-label">OPERATOR:</span>
+          <span id="hud-callsign" class="hud-val">PILOT_01</span>
+          <button id="btn-switch-callsign" class="btn-micro" title="Switch Operator Callsign">[SWITCH]</button>
+        </div>
+
+        <div class="hud-controls">
+          <button id="btn-toggle-aspect" class="hud-btn" title="Cycle Aspect Ratio (Auto / 16:9 / 4:3)">[ RATIO: AUTO ]</button>
+          <button id="btn-toggle-crt" class="hud-btn" title="Toggle CRT Scanline Overlay">[ CRT: ON ]</button>
+          <button id="btn-toggle-audio" class="hud-btn" title="Toggle Synthesized Audio">[ AUDIO: ON ]</button>
+        </div>
+      </header>
+
+      <!-- Main CRT Screen Display Area -->
+      <main id="terminal-screen">
+
+        <!-- 1. LOGIN / CALLSIGN AUTHENTICATION SCREEN -->
+        <section id="screen-login" class="screen active">
+          <div class="terminal-panel login-card">
+            <div class="panel-header">
+              <span class="panel-title">+---[ OPERATOR AUTHENTICATION TERMINAL ]---+</span>
+            </div>
+            
+            <div class="login-ascii-banner">
+<pre class="ascii-art">
+  _____ _   _ ____  _____     _____ _    _   _ _  __
+ |_   _| \ | |  _ \| ____|   |_   _/ \  | \ | | |/ /
+   | | |  \| | |_) |  _|       | |/ _ \ |  \| | ' / 
+   | | | |\  |  __/| |___      | / ___ \| |\  | . \ 
+   |_| |_| \_|_|   |_____|     |_/_/   \_\_| \_|_|\_\
+</pre>
+              <p class="terminal-intro">AUTONOMOUS BALLISTIC DEFENSE SIMULATION // SECTOR-07</p>
+            </div>
+
+            <div class="login-prompt-wrapper">
+              <div class="dos-prompt-line">
+                <span class="prompt-prefix">CALLSIGN&gt;</span>
+                <input type="text" id="callsign-input" class="dos-input" maxlength="14" spellcheck="false" autocomplete="off" placeholder="ENTER_CALLSIGN" autofocus>
+                <span class="blinking-cursor">_</span>
+              </div>
+              <p class="login-help">IDENTIFIER WILL BE LOGGED IN SYSTEM TELEMETRY &amp; FLIGHT LOGS</p>
+            </div>
+
+            <div class="screen-actions">
+              <button id="btn-login-submit" class="dos-btn primary">[ ENGAGE TERMINAL (ENTER) ]</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. SETTINGS / ARSENAL & DISPLAY CONFIGURATION SCREEN -->
+        <section id="screen-settings" class="screen">
+          <div class="terminal-panel settings-card">
+            <div class="panel-header">
+              <span class="panel-title">+---[ ARSENAL &amp; SYSTEM CONFIGURATION ]---+</span>
+              <span class="panel-tag">[SELECT 1-4 OR CLICK]</span>
+            </div>
+
+            <div class="settings-grid">
+              <!-- Mode Selection 4-Card Quad -->
+              <div class="mode-cards-container">
+                <div class="mode-card active" data-mode="1">
+                  <div class="mode-card-header">
+                    <span class="mode-key">[1]</span>
+                    <span class="mode-name">MODE 1: ALPHA</span>
+                  </div>
+                  <div class="mode-rules">LOWERCASE ONLY</div>
+                  <div class="mode-samples">tank, radar, artillery, missile</div>
+                </div>
+
+                <div class="mode-card" data-mode="2">
+                  <div class="mode-card-header">
+                    <span class="mode-key">[2]</span>
+                    <span class="mode-name">MODE 2: BRAVO</span>
+                  </div>
+                  <div class="mode-rules">LOWER + UPPERCASE</div>
+                  <div class="mode-samples">Tank, RadarX, DeltaForce, Viper</div>
+                </div>
+
+                <div class="mode-card" data-mode="3">
+                  <div class="mode-card-header">
+                    <span class="mode-key">[3]</span>
+                    <span class="mode-name">MODE 3: CHARLIE</span>
+                  </div>
+                  <div class="mode-rules">LOWER + UPPER + NUMBERS</div>
+                  <div class="mode-samples">Squad5, Tank99, (8+9), v2.0</div>
+                </div>
+
+                <div class="mode-card" data-mode="4">
+                  <div class="mode-card-header">
+                    <span class="mode-key">[4]</span>
+                    <span class="mode-name">MODE 4: DELTA</span>
+                  </div>
+                  <div class="mode-rules">ALL + SPECIAL CHARACTERS</div>
+                  <div class="mode-samples">[tank-01], !alert!, {cmd-9}, &lt;x&gt;</div>
+                </div>
+              </div>
+
+              <!-- Granular Character Matrix & Display Controls -->
+              <div class="settings-sidebar">
+                <div class="sub-panel">
+                  <div class="sub-title">// CHARACTER MATRIX //</div>
+                  <div class="matrix-toggles">
+                    <label class="matrix-label locked">
+                      <input type="checkbox" id="chk-matrix-lower" checked disabled>
+                      <span class="matrix-box">[X]</span> LOWERCASE (PERMANENT)
+                    </label>
+                    <label class="matrix-label">
+                      <input type="checkbox" id="chk-matrix-upper">
+                      <span class="matrix-box">[ ]</span> UPPERCASE (MODES 2-4)
+                    </label>
+                    <label class="matrix-label">
+                      <input type="checkbox" id="chk-matrix-num">
+                      <span class="matrix-box">[ ]</span> NUMERICS (MODES 3-4)
+                    </label>
+                    <label class="matrix-label">
+                      <input type="checkbox" id="chk-matrix-spec">
+                      <span class="matrix-box">[ ]</span> SPECIALS (MODE 4)
+                    </label>
+                  </div>
+                </div>
+
+                <div class="sub-panel">
+                  <div class="sub-title">// MONITOR ASPECT RATIO //</div>
+                  <div class="aspect-button-row">
+                    <button class="btn-aspect-select active" data-ratio="auto">[AUTO FIT]</button>
+                    <button class="btn-aspect-select" data-ratio="16-9">[16:9 WIDE]</button>
+                    <button class="btn-aspect-select" data-ratio="4-3">[4:3 CRT]</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Sample Word Preview Bar -->
+            <div class="arsenal-preview-bar">
+              <span id="arsenal-preview-text">SAMPLES: tank radar artillery missile turret armor patrol bunker</span>
+            </div>
+
+            <div class="screen-actions">
+              <button id="btn-save-settings" class="dos-btn primary">[ PROCEED TO BRIEFING (ENTER) ]</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. INSTRUCTIONS / COMBAT BRIEFING SCREEN -->
+        <section id="screen-instructions" class="screen">
+          <div class="terminal-panel briefing-card">
+            <div class="panel-header">
+              <span class="panel-title">+---[ COMBAT SORTIE BRIEFING // DIRECTIVE 104 ]---+</span>
+              <span class="panel-tag">[HIGH PRIORITY]</span>
+            </div>
+
+            <!-- High-Density 2-Column Tactical Directive Grid -->
+            <div class="briefing-grid">
+              <div class="briefing-col">
+                <div class="directive-box">
+                  <div class="directive-title"><span class="directive-num">01.</span> HOSTILE INVASION VECTOR</div>
+                  <div class="directive-desc">Hostile threats descend from top airspace. Neutralize before they breach the lower defense perimeter line.</div>
+                </div>
+
+                <div class="directive-box highlight-box">
+                  <div class="directive-title"><span class="directive-num">02.</span> TURRET TARGETING &amp; LOWEST-FIRST</div>
+                  <div class="directive-desc">Type characters to engage. If multiple words begin with the same character, the tank <strong>automatically locks onto the lowest / bottom-most word</strong> first. Once locked, subsequent keystrokes track that threat until neutralized.</div>
+                </div>
+
+                <div class="directive-box">
+                  <div class="directive-title"><span class="directive-num">03.</span> BALLISTIC TRACER &amp; FADE EFFECT</div>
+                  <div class="directive-desc">Every correct keystroke fires a visible projectile from the 180° cannon. Typed characters immediately <strong>fade to ~35-40% opacity</strong> while remaining target letters stay crisp.</div>
+                </div>
+              </div>
+
+              <div class="briefing-col">
+                <div class="directive-box bonus-alert-box">
+                  <div class="directive-title"><span class="directive-num">04.</span> RED BONUS TARGETS [3.5X]</div>
+                  <div class="directive-desc">Glowing crimson threats descend faster and grant <strong>3.5× score multiplier</strong>. While a red threat is active, duplicate starting characters are suppressed, followed by a 3-second cooldown window.</div>
+                </div>
+
+                <div class="directive-box breach-alert-box">
+                  <div class="directive-title"><span class="directive-num">05.</span> PERIMETER BREACH &amp; HULL INTEGRITY</div>
+                  <div class="directive-desc">Threats reaching the bottom defense line detonate, shaking the arena and inflicting hull damage (20% normal, 30% bonus). Combat ends when hull integrity reaches 0%.</div>
+                </div>
+
+                <div class="directive-box keys-box">
+                  <div class="directive-title"><span class="directive-num">06.</span> TACTICAL KEYBOARD COMMANDS</div>
+                  <div class="directive-desc">
+                    <span class="key-badge">[ESC]</span> Abort / Pause Sortie &nbsp;|&nbsp;
+                    <span class="key-badge">[ENTER / SPACE]</span> Confirm &amp; Engage &nbsp;|&nbsp;
+                    <span class="key-badge">[REAL-TIME KEYS]</span> Cannon Fire
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="briefing-prompt-bar">
+              &gt;&gt;&gt; PRESS SPACEBAR OR ENTER TO ENGAGE SORTIE &lt;&lt;&lt;
+            </div>
+
+            <div class="screen-actions dual">
+              <button id="btn-back-settings" class="dos-btn secondary">[ &lt; BACK TO SETTINGS ]</button>
+              <button id="btn-start-combat" class="dos-btn primary">[ ENGAGE SORTIE (SPACE / ENTER) ]</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. GAME / TURRET BATTLEFIELD SCREEN -->
+        <section id="screen-game" class="screen">
+          <!-- Compact Single-Row Telemetry HUD Bar -->
+          <div id="game-hud">
+            <div class="hud-item"><span class="stat-lbl">SCORE:</span> <span id="stat-score" class="stat-num">000000</span></div>
+            <div class="hud-item"><span class="stat-lbl">COMBO:</span> <span id="stat-combo" class="stat-num">x1</span></div>
+            <div class="hud-item"><span class="stat-lbl">WPM:</span> <span id="stat-wpm" class="stat-num">0</span></div>
+            <div class="hud-item"><span class="stat-lbl">ACC:</span> <span id="stat-acc" class="stat-num">100%</span></div>
+            
+            <div class="hud-item health-hud-item">
+              <span class="stat-lbl">HULL:</span>
+              <div class="health-track">
+                <div id="health-fill" class="health-fill" style="width: 100%;"></div>
+              </div>
+              <span id="health-pct-text" class="stat-num health-pct">100%</span>
+            </div>
+
+            <div class="hud-item-right">
+              <span class="hud-hint">[ESC]: PAUSE</span>
+            </div>
+          </div>
+
+          <!-- Canvas Combat Arena -->
+          <div id="canvas-container">
+            <canvas id="game-canvas"></canvas>
+          </div>
+        </section>
+
+        <!-- 5. RESULT / SORTIE DEBRIEF & RECORD CELEBRATION SCREEN -->
+        <section id="screen-result" class="screen">
+          <div class="terminal-panel debrief-card">
+            <div class="panel-header">
+              <span class="panel-title">+---[ SORTIE DEBRIEF // COMBAT RECORD ]---+</span>
+              <span id="debrief-mode" class="panel-tag">MODE 1 [ALPHA]</span>
+            </div>
+
+            <!-- Arcade Record Celebration Banner -->
+            <div id="debrief-record-banner" class="record-banner-normal">
+              --- SORTIE DEBRIEF COMPLETE ---
+            </div>
+
+            <div id="debrief-pb-delta" class="debrief-pb-delta">
+              PERSONAL BEST: 000000 PTS
+            </div>
+
+            <!-- Debrief Metrics Grid -->
+            <div class="debrief-stats-grid">
+              <div class="debrief-stat-box score-stat">
+                <span class="db-lbl">FINAL SORTIE SCORE</span>
+                <span id="debrief-score" class="db-val">000000</span>
+              </div>
+              <div class="debrief-stat-box">
+                <span class="db-lbl">AVERAGE SPEED</span>
+                <span id="debrief-wpm" class="db-val">0</span>
+                <span class="db-unit">WPM</span>
+              </div>
+              <div class="debrief-stat-box">
+                <span class="db-lbl">FIRING ACCURACY</span>
+                <span id="debrief-acc" class="db-val">100%</span>
+              </div>
+              <div class="debrief-stat-box">
+                <span class="db-lbl">THREATS NEUTRALIZED</span>
+                <span id="debrief-words" class="db-val">0</span>
+              </div>
+              <div class="debrief-stat-box">
+                <span class="db-lbl">MAX COMBAT COMBO</span>
+                <span id="debrief-combo" class="db-val">x1</span>
+              </div>
+              <div class="debrief-stat-box">
+                <span class="db-lbl">SORTIE DURATION</span>
+                <span id="debrief-duration" class="db-val">0s</span>
+              </div>
+            </div>
+
+            <div class="screen-actions tri">
+              <button id="btn-debrief-settings" class="dos-btn secondary">[ ARSENAL (S) ]</button>
+              <button id="btn-debrief-records" class="dos-btn secondary">[ FLIGHT LOGS (R) ]</button>
+              <button id="btn-debrief-retry" class="dos-btn primary">[ RE-ENGAGE SORTIE (ENTER / SPACE) ]</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. MY RECORDS / PERFORMANCE HISTORY SCREEN -->
+        <section id="screen-records" class="screen">
+          <div class="terminal-panel records-card">
+            <div class="panel-header">
+              <span class="panel-title">+---[ OPERATOR FLIGHT LOGS &amp; PERFORMANCE HISTORY ]---+</span>
+              <button id="btn-purge-logs" class="btn-micro danger">[PURGE LOGS]</button>
+            </div>
+
+            <!-- Lifetime Operator Overview Strip -->
+            <div class="records-overview-strip">
+              <div class="ov-item"><span class="ov-lbl">TOTAL SORTIES:</span> <span id="stat-life-sorties" class="ov-val">0</span></div>
+              <div class="ov-item"><span class="ov-lbl">PEAK SCORE:</span> <span id="stat-life-score" class="ov-val">000000</span></div>
+              <div class="ov-item"><span class="ov-lbl">MAX WPM:</span> <span id="stat-life-wpm" class="ov-val">0</span></div>
+              <div class="ov-item"><span class="ov-lbl">AVG ACCURACY:</span> <span id="stat-life-acc" class="ov-val">0%</span></div>
+              <div class="ov-item"><span class="ov-lbl">TOTAL DESTROYED:</span> <span id="stat-life-words" class="ov-val">0</span></div>
+            </div>
+
+            <!-- Mode Bests Quad -->
+            <div class="records-quad-grid">
+              <div class="quad-card">
+                <div class="quad-title">MODE 1: ALPHA</div>
+                <div id="quad-pb-mode1" class="quad-body">NO DATA</div>
+              </div>
+              <div class="quad-card">
+                <div class="quad-title">MODE 2: BRAVO</div>
+                <div id="quad-pb-mode2" class="quad-body">NO DATA</div>
+              </div>
+              <div class="quad-card">
+                <div class="quad-title">MODE 3: CHARLIE</div>
+                <div id="quad-pb-mode3" class="quad-body">NO DATA</div>
+              </div>
+              <div class="quad-card">
+                <div class="quad-title">MODE 4: DELTA</div>
+                <div id="quad-pb-mode4" class="quad-body">NO DATA</div>
+              </div>
+            </div>
+
+            <!-- Filterable Log Tabs -->
+            <div class="records-filter-bar">
+              <span class="filter-lbl">FILTER:</span>
+              <button class="btn-filter-mode active" data-filter="all">[ALL MODES]</button>
+              <button class="btn-filter-mode" data-filter="1">[M1: ALPHA]</button>
+              <button class="btn-filter-mode" data-filter="2">[M2: BRAVO]</button>
+              <button class="btn-filter-mode" data-filter="3">[M3: CHARLIE]</button>
+              <button class="btn-filter-mode" data-filter="4">[M4: DELTA]</button>
+            </div>
+
+            <!-- Flight Log Table Container -->
+            <div class="records-table-container">
+              <table class="dos-table">
+                <thead>
+                  <tr>
+                    <th>DATE / TIME</th>
+                    <th>OPERATOR</th>
+                    <th>ARSENAL</th>
+                    <th>SCORE</th>
+                    <th>SPEED</th>
+                    <th>ACCURACY</th>
+                    <th>MAX COMBO</th>
+                  </tr>
+                </thead>
+                <tbody id="flight-log-tbody">
+                  <!-- Generated dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="screen-actions">
+              <button id="btn-back-from-records" class="dos-btn primary">[ &lt; RETURN TO SETTINGS (ESC / ENTER) ]</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- CRT Visual Effects Overlays -->
+      <div class="crt-scanlines" aria-hidden="true"></div>
+      <div class="crt-vignette" aria-hidden="true"></div>
+      <div class="crt-phosphor-glow" aria-hidden="true"></div>
+
+      <!-- Full-Screen Arcade Celebration Canvas -->
+      <canvas id="celebration-canvas" aria-hidden="true"></canvas>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/words.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
